@@ -22,14 +22,18 @@ train = args.train
 
 # rng_seed = 000
 # np.random.seed(rng_seed)
+images=[]
 for root, dirs, files in os.walk(dataset_folder, topdown=False):
-    filelist=np.asarray(files)
+    for file in files:
+        if file.endswith(".jpg"):
+            images.append(file)
+    filelist=np.asarray(images)
     train_split_num= int((train / 100) * len(filelist))
     shuffled=np.random.choice(filelist,train_split_num,replace=False)
     trainSplit=set(shuffled)
     fullDataset=set(filelist)
     testSplit = fullDataset.difference(trainSplit)
-    print("Label: {}, Total train images: {}, Total test images: {}".format(osp.basename(root), len(trainSplit), len(testSplit)))
+    print(f"Total train images: {len(trainSplit)}, Total test images: {len(testSplit)}")
                     
     trainSplit=list(trainSplit)
     testSplit=list(testSplit)
